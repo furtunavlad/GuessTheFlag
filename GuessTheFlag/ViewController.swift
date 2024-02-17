@@ -26,7 +26,7 @@ class ViewController: UIViewController {
     }
     
     
-    func askQuestion() {
+    func askQuestion(action: UIAlertAction! = nil) {
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
         
@@ -35,11 +35,26 @@ class ViewController: UIViewController {
         buttonBottom.setImage(UIImage(named: countries[2]), for: .normal)
         
         title = countries[correctAnswer].uppercased()
+        
     }
     
     
     @IBAction func ButtonTapped(_ sender: UIButton) {
+        var title: String
         
+        if sender.tag == correctAnswer {
+            title = "Correct"
+            score += 1
+        } else {
+            title = "Wrong"
+            score = 0
+        }
+        
+        let ac = UIAlertController(title: title, message: "your score is \(score)", preferredStyle: .alert)
+        
+        ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: askQuestion))
+        
+        present(ac, animated: true)
     }
     
 
